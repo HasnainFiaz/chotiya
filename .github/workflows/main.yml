@@ -1,29 +1,41 @@
-name: Windows - LiteManager
+name: Windows - LiteManager RDP
 
 on:
   workflow_dispatch:
 
 jobs:
   build:
-    name: Start Building...
+    name: Set up LiteManager RDP
     runs-on: windows-latest
     timeout-minutes: 9999
 
     steps:
+      # Step 1: Download and Install Essential Files
       - name: Downloading & Installing Essentials
         run: |
-          echo "Starting the download of Downloads.bat"
+          echo "Downloading Downloads.bat"
           Invoke-WebRequest -Uri "https://gitlab.com/chmad012/lm_win_10_github_rdp/-/raw/main/Downloads.bat" -OutFile "Downloads.bat" -UseBasicParsing
-          echo "Downloaded Downloads.bat file content:"
-          type Downloads.bat
+          echo "Executing Downloads.bat"
           cmd /c Downloads.bat
 
+      # Step 2: Connect to LiteManager
       - name: Connect to LiteManager
         run: |
-          echo "Running show.bat"
-          cmd /c show.bat
+          echo "Connecting using show.bat"
+          if (Test-Path show.bat) {
+              cmd /c show.bat
+          } else {
+              echo "Error: show.bat not found!"
+              exit 1
+          }
 
-      - name: Time Counter
+      # Step 3: Start Time Counter
+      - name: Start Time Counter
         run: |
-          echo "Running loop.bat"
-          cmd /c loop.bat
+          echo "Starting loop.bat"
+          if (Test-Path loop.bat) {
+              cmd /c loop.bat
+          } else {
+              echo "Error: loop.bat not found!"
+              exit 1
+          }
