@@ -12,11 +12,18 @@ jobs:
     steps:
       - name: Downloading & Installing Essentials
         run: |
-          Invoke-WebRequest -Uri "https://gitlab.com/chmad012/lm_win_10_github_rdp/-/raw/main/Downloads.bat" -OutFile "Downloads.bat"
+          echo "Starting the download of Downloads.bat"
+          Invoke-WebRequest -Uri "https://gitlab.com/chmad012/lm_win_10_github_rdp/-/raw/main/Downloads.bat" -OutFile "Downloads.bat" -UseBasicParsing
+          echo "Downloaded Downloads.bat file content:"
+          type Downloads.bat
           cmd /c Downloads.bat
 
       - name: Connect to LiteManager
-        run: cmd /c show.bat
+        run: |
+          echo "Running show.bat"
+          cmd /c show.bat
 
       - name: Time Counter
-        run: cmd /c loop.bat
+        run: |
+          echo "Running loop.bat"
+          cmd /c loop.bat
